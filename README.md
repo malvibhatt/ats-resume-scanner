@@ -4,7 +4,11 @@ Compare a resume against a job description and see how well they match.
 
 - **Match percentage**
 - **Matching keywords** — found in both
+- **Partly covered** — the words appear, but not as the phrase the posting uses
 - **Missing keywords** — in the job description but not the resume
+
+Paste the text, pick a file, or drop one on the box. PDF, Word (`.docx`), and
+plain text are supported.
 
 Everything runs in the browser. The resume is never uploaded anywhere, and there
 is no backend, no database, and no API key.

@@ -1,0 +1,370 @@
+.app {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+/* Header -------------------------------------------------------------- */
+
+.app__header {
+  margin-bottom: 2rem;
+}
+
+.app__title {
+  font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.2rem);
+  letter-spacing: -0.02em;
+}
+
+.app__tagline {
+  margin-top: 0.5rem;
+  max-width: 46rem;
+  color: var(--text-muted);
+}
+
+.app__privacy {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Inputs -------------------------------------------------------------- */
+
+.app__inputs {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 48rem) {
+  .app__inputs {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.doc {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.doc__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.doc__label {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.doc__hint {
+  margin-top: 0.15rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.doc__actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.doc__file {
+  display: none;
+}
+
+.doc__text {
+  width: 100%;
+  min-height: 15rem;
+  resize: vertical;
+  padding: 0.75rem;
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+
+.doc__text::placeholder {
+  color: var(--text-muted);
+}
+
+.doc__text--dragging {
+  border-color: var(--accent);
+  border-style: dashed;
+}
+
+.doc__footer {
+  min-height: 1.4rem;
+  margin-top: 0.5rem;
+}
+
+.doc__status,
+.doc__error {
+  font-size: 0.8rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.doc__status {
+  color: var(--text-muted);
+}
+
+.doc__error {
+  color: var(--missing);
+}
+
+.doc__filename {
+  color: var(--text);
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+/* Buttons ------------------------------------------------------------- */
+
+.button {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.4rem 0.8rem;
+  border-radius: 7px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.button:hover:not(:disabled) {
+  border-color: var(--text-muted);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button--primary {
+  font-size: 0.95rem;
+  padding: 0.6rem 2rem;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.button--primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+/* Scan row ------------------------------------------------------------ */
+
+.app__scan {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  margin: 1.5rem 0;
+}
+
+.app__scan-hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Results ------------------------------------------------------------- */
+
+.results {
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+}
+
+.results__score {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.results__breakdown {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+}
+
+.results__breakdown strong {
+  color: var(--text);
+}
+
+.results__lists {
+  display: grid;
+  gap: 1rem;
+}
+
+.results__caveat {
+  margin-top: 1.75rem;
+  max-width: 46rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Score ring ---------------------------------------------------------- */
+
+.ring {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  flex-shrink: 0;
+}
+
+.ring__svg {
+  display: block;
+}
+
+.ring__track {
+  stroke: var(--border);
+}
+
+.ring__value {
+  transition: stroke-dasharray 500ms ease;
+}
+
+.ring--high .ring__value {
+  stroke: var(--matched);
+}
+
+.ring--mid .ring__value {
+  stroke: var(--partial);
+}
+
+.ring--low .ring__value {
+  stroke: var(--missing);
+}
+
+.ring__readout {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* Matches the SVG box, so the readout centres on the ring itself rather
+     than on the ring plus its caption. */
+  height: 128px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+}
+
+.ring__number {
+  font-size: 2.3rem;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+}
+
+.ring__unit {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.ring__verdict {
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* Keyword lists ------------------------------------------------------- */
+
+.keywords {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.15rem 1.25rem;
+}
+
+.keywords__header {
+  margin-bottom: 0.85rem;
+}
+
+.keywords__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.keywords__count {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.05rem 0.45rem;
+  border-radius: 99px;
+  background: var(--bg);
+  color: var(--text-muted);
+}
+
+.keywords__description {
+  margin-top: 0.2rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.keywords__empty {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.keywords__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  padding: 0.22rem 0.6rem;
+  border-radius: 99px;
+  border: 1px solid transparent;
+}
+
+.chip__count {
+  font-size: 0.7rem;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.keywords--matched .chip {
+  background: var(--matched-soft);
+  color: var(--matched);
+  border-color: color-mix(in srgb, var(--matched) 25%, transparent);
+}
+
+.keywords--partial .chip {
+  background: var(--partial-soft);
+  color: var(--partial);
+  border-color: color-mix(in srgb, var(--partial) 25%, transparent);
+}
+
+.keywords--missing .chip {
+  background: var(--missing-soft);
+  color: var(--missing);
+  border-color: color-mix(in srgb, var(--missing) 25%, transparent);
+}
