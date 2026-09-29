@@ -67,4 +67,40 @@ describe("segment", () => {
     const segments = segment("React; Node; GraphQL");
     expect(segments).toHaveLength(3);
   });
+
+  it("splits on commas", () => {
+    // Regression: skill lists are written "Angular, Spring Boot". Running
+    // them together invents the phrase "Angular Spring Boot", which matches
+    // nothing and hides both real terms.
+    const segments = segment("Angular, Spring Boot");
+    expect(segments.map((s) => s.tokens.map((t) => t.word))).toEqual([
+      ["angular"],
+      ["spring", "boot"],
+    ]);
+  });
+
+  it("separates a parenthetical from what precedes it", () => {
+    const segments = segment("Amazon Web Services (AWS)");
+    expect(segments.map((s) => s.tokens.map((t) => t.word))).toEqual([
+      ["amazon", "web", "services"],
+      ["aws"],
+    ]);
+  });
+
+  it("splits a spaced slash but keeps a name that contains one", () => {
+    expect(
+      segment("React / Angular").map((s) => s.tokens.map((t) => t.word)),
+    ).toEqual([["react"], ["angular"]]);
+
+    // "CI/CD" and "TCP/IP" are single names, not lists.
+    expect(
+      segment("CI/CD and TCP/IP").map((s) => s.tokens.map((t) => t.word)),
+    ).toEqual([["ci/cd", "and", "tcp/ip"]]);
+  });
+
+  it("splits on ampersands", () => {
+    expect(
+      segment("Spring & Hibernate").map((s) => s.tokens.map((t) => t.word)),
+    ).toEqual([["spring"], ["hibernate"]]);
+  });
 });

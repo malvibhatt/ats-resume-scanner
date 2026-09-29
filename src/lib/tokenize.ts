@@ -79,10 +79,14 @@ export function tokenize(text: string): Token[] {
  * whitespace or the end of the line follows. A bare `.` here would split
  * "Node.js" in half before the tokenizer ever saw it.
  *
- * Semicolons, colons, and bullets separate list items as firmly as a full stop,
- * and job descriptions are mostly lists.
+ * The comma matters as much as the full stop: skill lists are written
+ * "Angular, Spring Boot", and running those together invents a phrase
+ * ("Angular Spring Boot") that matches nothing and hides the two real terms.
+ *
+ * The slash only breaks when spaced — "React / Angular" is a list, but
+ * "CI/CD" and "TCP/IP" are single names.
  */
-const SEGMENT_BREAK = /\.(?=\s|$)|[;:!?•·|]+|\s[-–—]\s/;
+const SEGMENT_BREAK = /\.(?=\s|$)|[,;:!?&•·|()[\]{}]+|\s[-–—/]\s/;
 
 /**
  * Split text into segments of tokens, preserving the line each began on.

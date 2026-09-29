@@ -71,6 +71,30 @@ describe("scan", () => {
     expect(has(wrapped.matched, "ci/cd pipelines")).toBe(true);
   });
 
+  it("treats a comma-separated skill list as separate skills", () => {
+    // Regression: "Angular, Spring Boot" was read as the single phrase
+    // "Angular Spring Boot". A resume with Angular and Java then matched
+    // nothing at all, because the invented phrase also swallowed the words
+    // it was built from.
+    const list = `Backend Engineer
+
+Requirements
+- Angular, Spring Boot
+- Java, Kotlin, PostgreSQL`;
+
+    const result = scan("I build Angular apps and write Java every day.", list);
+
+    expect(has(result.matched, "angular")).toBe(true);
+    expect(has(result.matched, "java")).toBe(true);
+    expect(has(result.missing, "spring boot")).toBe(true);
+    expect(has(result.missing, "kotlin")).toBe(true);
+
+    // The phrase that never existed must not appear anywhere.
+    for (const keyword of result.keywords) {
+      expect(keyword.text.toLowerCase()).not.toBe("angular spring boot");
+    }
+  });
+
   it("does not join a phrase across a sentence break", () => {
     // "React. Native" is two sentences, not React Native.
     const result = scan("I use React. Native apps are not my focus.", JOB_DESCRIPTION);
