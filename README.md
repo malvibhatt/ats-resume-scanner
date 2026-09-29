@@ -42,6 +42,12 @@ The scan is plain text processing — no API, no model, no network call.
    three-word phrases, weighted by how often they appear, which section they
    appear under, and whether they read like the name of a technology
    (`lib/keywords.ts`)
+5. **Score** the resume as the share of that keyword weight it covers, so
+   missing something the posting stresses costs more than missing something
+   mentioned once in passing (`lib/scan.ts`)
+
+A term the resume contains counts in full. A phrase whose words appear, but
+not together as the phrase, earns half credit at most.
 
 ## Stack
 
